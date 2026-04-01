@@ -6,12 +6,12 @@
 //   Row 1: header (skipped)
 //   Column A: client name (required)
 //   Column B: website (optional)
-//   Column C: rep email (optional)
+//   Column C: rep name (optional — matched against profiles.name)
 
 export type SheetRow = {
   name: string
   website: string
-  repEmail: string
+  repName: string
   rowIndex: number  // 1-based row number (used as sheets_row_id)
 }
 
@@ -42,7 +42,7 @@ export async function readSheet(sheetUrl: string, tabName: string): Promise<Shee
   return rows.slice(1).map((row, i) => ({
     name: row[0]?.trim() ?? '',
     website: row[1]?.trim() ?? '',
-    repEmail: row[2]?.trim() ?? '',
+    repName: row[2]?.trim() ?? '',
     rowIndex: i + 2,  // row 2 onward (1-based, header is row 1)
   })).filter((row) => row.name !== '')  // skip blank name rows
 }

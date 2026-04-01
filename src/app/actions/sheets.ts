@@ -81,21 +81,21 @@ export async function syncSheet(): Promise<SyncResult> {
     return { error: `Could not read sheet: ${err instanceof Error ? err.message : String(err)}` }
   }
 
-  // Build rep email → profile id map
-  const repEmails = [...new Set(rows.map((r) => r.repEmail).filter(Boolean))]
+  // Build rep name → profile id map
+  const repNames = [...new Set(rows.map((r) => r.repName).filter(Boolean))]
   const { data: repProfiles } = await adminSupabase
     .from('profiles')
-    .select('id, email')
-    .in('email', repEmails)
+    .select('id, name')
+    .in('name', repNames)
 
-  const repMap = new Map((repProfiles ?? []).map((p) => [p.email, p.id]))
+  const repMap = new Map((repProfiles ?? []).map((p) => [p.name, p.id]))
 
   let created = 0
   let updated = 0
   const errors: string[] = []
 
   for (const row of rows) {
-    const assignedRepId = row.repEmail ? (repMap.get(row.repEmail) ?? null) : null
+    const assignedRepId = row.repName ? (repMap.get(row.repName) ?? null) : null
 
     const { data: existing } = await adminSupabase
       .from('clients')
