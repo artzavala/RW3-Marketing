@@ -71,6 +71,43 @@ export async function updateClientAction(
   return null
 }
 
+export async function assignPackagesAction(
+  _prev: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const isAdmin = await checkRole('admin')
+  if (!isAdmin) return { error: 'Unauthorized' }
+
+  const clientId = formData.get('client_id') as string
+  const packageIds = formData.getAll('package_ids') as string[]
+
+  const supabase = await createClient()
+
+  // Delete all existing assignments for this client
+  const { error: deleteError } = await supabase
+    .from('client_services')
+    .delete()
+    .eq('client_id', clientId)
+
+  if (deleteError) return { error: deleteError.message }
+
+  // Insert new assignments (if any selected)
+  if (packageIds.length > 0) {
+    const { error: insertError } = await supabase
+      .from('client_services')
+      .insert(packageIds.map(pid => ({
+        client_id: clientId,
+        service_package_id: pid,
+      })))
+
+    if (insertError) return { error: insertError.message }
+  }
+
+  revalidatePath(`/admin/clients/${clientId}`)
+  revalidatePath('/admin/clients')
+  return null
+}
+
 export async function deleteClientAction(
   _prevState: ActionState,
   formData: FormData
