@@ -28,20 +28,22 @@ Plans:
 
 ---
 
-## Phase 2 — Client & Services Management
+## Phase 2 — Client & Services Management ✓
 
 **Goal:** Admins manage clients and service packages; reps see assigned clients; package assignment works
 
 **Requirements:** CLI-01, CLI-02, CLI-03, CLI-04, CLI-05, SVC-01, SVC-02, SVC-03, SVC-04, SVC-05
 
+**Completed:** 2026-04-01
+
 **Plans:** 5 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Database migration (clients, service_packages, client_services) + shadcn installs + sidebar nav
-- [ ] 02-02-PLAN.md — Service packages admin CRUD (list, add, edit, delete)
-- [ ] 02-03-PLAN.md — Client list page and CRUD actions (admin)
-- [ ] 02-04-PLAN.md — Client detail page with edit, rep assignment, and service assignment
-- [ ] 02-05-PLAN.md — Rep client list and detail pages (read-only)
+- [x] 02-01-PLAN.md — Database migration (clients, service_packages, client_services) + shadcn installs + sidebar nav
+- [x] 02-02-PLAN.md — Service packages admin CRUD (list, add, edit, delete)
+- [x] 02-03-PLAN.md — Client list page and CRUD actions (admin)
+- [x] 02-04-PLAN.md — Client detail page with edit, rep assignment, and service assignment
+- [x] 02-05-PLAN.md — Rep client list and detail pages (read-only)
 
 **Deliverables:**
 - `clients` table and CRUD (admin only for write, role-scoped for read)
