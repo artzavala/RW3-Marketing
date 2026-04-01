@@ -38,7 +38,7 @@ Progress: ████████░░░░░░░░░░░░ 40% (8/20
 | 02-01 | Database migration + shadcn installs + sidebar nav | 2026-04-01 | 30bff30 |
 | 02-02 | Service packages admin page with CRUD dialogs | 2026-04-01 | 8224862 |
 | 02-03 | Client list page + CRUD actions (admin) | 2026-04-01 | dac85e0 |
-| 02-04 | Client detail page (edit form, admin) | 2026-04-01 | (see phase) |
+| 02-04 | Client detail page (edit form, admin) | 2026-04-01 | c752619 |
 | 02-05 | Rep client list and detail pages (read-only) | 2026-04-01 | edf0be7 |
 
 ---
@@ -60,6 +60,9 @@ Progress: ████████░░░░░░░░░░░░ 40% (8/20
 | form.tsx written manually | base-nova shadcn registry has no form component; CLI silently skips it | 02-01 |
 | Server Actions use (prevState, formData) two-arg signature | useActionState requires it; single-arg form rejected by TypeScript | 02-03 |
 | buttonVariants on Link/a instead of Button asChild | base-ui Button primitive has no asChild prop; buttonVariants className applied directly | 02-03 |
+| profiles column is name not full_name | Per 0001_create_profiles.sql schema; existing new-client code has a latent bug using full_name | 02-04 |
+| base-ui Select.Root onValueChange types as (string \| null) | State must be string \| null to match; use hidden input with ?? '' fallback for FormData | 02-04 |
+| clients table has no contact_name/contact_email | Plan spec referenced fields not in schema; omitted from form | 02-04 |
 | notFound() for null client on rep detail page | Keeps security opaque — rep can't distinguish "doesn't exist" from "not your client" | 02-05 |
 | Rep pages use createClient() not createAdminClient() | RLS handles all scoping automatically; no manual WHERE needed | 02-05 |
 
