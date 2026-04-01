@@ -34,6 +34,15 @@ Plans:
 
 **Requirements:** CLI-01, CLI-02, CLI-03, CLI-04, CLI-05, SVC-01, SVC-02, SVC-03, SVC-04, SVC-05
 
+**Plans:** 5 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Database migration (clients, service_packages, client_services) + shadcn installs + sidebar nav
+- [ ] 02-02-PLAN.md — Service packages admin CRUD (list, add, edit, delete)
+- [ ] 02-03-PLAN.md — Client list page and CRUD actions (admin)
+- [ ] 02-04-PLAN.md — Client detail page with edit, rep assignment, and service assignment
+- [ ] 02-05-PLAN.md — Rep client list and detail pages (read-only)
+
 **Deliverables:**
 - `clients` table and CRUD (admin only for write, role-scoped for read)
 - `service_packages` table and CRUD (admin only)
