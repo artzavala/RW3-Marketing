@@ -22,10 +22,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
         email={user.email ?? ''}
         role={profile?.role ?? 'rep'}
       />
-      <main className="flex flex-1 flex-col overflow-auto">
-        <div className="flex items-center gap-2 border-b px-4 py-2">
+      <main className="flex-1 overflow-auto bg-background">
+        <header className="flex items-center gap-2 border-b bg-card px-4 py-2.5">
           <SidebarTrigger />
-        </div>
+        </header>
         <div className="p-6">
           {children}
         </div>

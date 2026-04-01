@@ -1,6 +1,7 @@
 'use client'
 
 import { useActionState, useState } from 'react'
+import { Clock } from 'lucide-react'
 import { saveConfig, syncSheet, SyncResult } from '@/app/actions/sheets'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -27,9 +28,9 @@ export function SheetsConfigForm({ config }: { config: Config }) {
   }
 
   return (
-    <div className="space-y-8 max-w-lg">
+    <div className="rounded-xl border bg-card p-6 space-y-8 max-w-lg">
       <div>
-        <h2 className="text-lg font-semibold mb-4">Google Sheets configuration</h2>
+        <h2 className="text-base font-semibold mb-4">Google Sheets configuration</h2>
         <form action={configAction} className="space-y-4">
           {configState.error && <p className="text-sm text-destructive">{configState.error}</p>}
           {configState.success && <p className="text-sm text-green-600">Saved.</p>}
@@ -60,9 +61,11 @@ export function SheetsConfigForm({ config }: { config: Config }) {
 
       {config && (
         <div>
-          <h2 className="text-lg font-semibold mb-2">Sync</h2>
+          <hr className="border-border mb-8 -mt-2" />
+          <h2 className="text-base font-semibold mb-2">Sync</h2>
           {config.last_synced_at && (
-            <p className="text-sm text-muted-foreground mb-3">
+            <p className="text-sm text-muted-foreground mb-3 flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5" />
               Last synced: {new Date(config.last_synced_at).toLocaleString()}
             </p>
           )}

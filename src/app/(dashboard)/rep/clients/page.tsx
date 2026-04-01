@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Users } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import {
   Table,
@@ -24,16 +25,20 @@ export default async function RepClientsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">My Clients</h1>
+      <div>
+        <h1 className="text-2xl font-bold">My Clients</h1>
+        <p className="text-muted-foreground text-sm mt-1">Your assigned accounts.</p>
+      </div>
 
       <div className="mt-6">
         {!clients || clients.length === 0 ? (
-          <p className="text-center text-muted-foreground">
-            No clients assigned to you yet.
-          </p>
+          <div className="py-12 text-center">
+            <Users className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
+            <p className="text-muted-foreground">No clients assigned to you yet.</p>
+          </div>
         ) : (
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Website</TableHead>
@@ -47,7 +52,7 @@ export default async function RepClientsPage() {
                   : 0
 
                 return (
-                  <TableRow key={client.id}>
+                  <TableRow key={client.id} className="hover:bg-muted/30 transition-colors duration-150 cursor-pointer">
                     <TableCell>
                       <Link
                         href={`/rep/clients/${client.id}`}

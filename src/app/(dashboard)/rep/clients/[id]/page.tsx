@@ -34,14 +34,14 @@ export default async function RepClientDetailPage({ params }: PageProps) {
       <div className="mb-6">
         <Link
           href="/rep/clients"
-          className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors underline-offset-4 hover:underline"
         >
           ← Back to My Clients
         </Link>
       </div>
 
       {/* Section 1: Client Information */}
-      <div className="rounded-lg border p-6">
+      <div className="rounded-xl border bg-card p-6">
         <h1 className="text-2xl font-bold">{client.name}</h1>
 
         <dl className="mt-4 space-y-3">
@@ -67,14 +67,14 @@ export default async function RepClientDetailPage({ params }: PageProps) {
       </div>
 
       {/* Section 2: Assigned Services */}
-      <div className="mt-6 rounded-lg border p-6">
+      <div className="mt-6 rounded-xl border bg-card p-6">
         <h2 className="text-lg font-semibold">Services</h2>
 
         <div className="mt-3">
           {!services || services.length === 0 ? (
             <p className="text-muted-foreground">No services assigned.</p>
           ) : (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex gap-2 flex-wrap">
               {services.map((svc) => {
                 const pkg = Array.isArray(svc.service_packages)
                   ? (svc.service_packages[0] as { name: string } | undefined)

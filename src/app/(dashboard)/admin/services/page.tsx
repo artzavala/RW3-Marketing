@@ -1,3 +1,4 @@
+import { Package } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import {
   Table,
@@ -22,19 +23,23 @@ export default async function AdminServicesPage() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Service Packages</h1>
+        <div>
+          <h1 className="text-2xl font-bold">Service Packages</h1>
+          <p className="text-muted-foreground text-sm mt-1">Define and manage service packages.</p>
+        </div>
         <AddPackageDialog />
       </div>
 
       <div className="mt-6">
         {!packages || packages.length === 0 ? (
           <div className="flex flex-col items-center gap-4 py-12 text-center">
+            <Package className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
             <p className="text-muted-foreground">No service packages yet.</p>
             <AddPackageDialog />
           </div>
         ) : (
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Created</TableHead>
@@ -43,7 +48,7 @@ export default async function AdminServicesPage() {
             </TableHeader>
             <TableBody>
               {packages.map((pkg) => (
-                <TableRow key={pkg.id}>
+                <TableRow key={pkg.id} className="hover:bg-muted/30 transition-colors duration-150">
                   <TableCell className="font-medium">{pkg.name}</TableCell>
                   <TableCell className="text-muted-foreground">
                     {new Date(pkg.created_at).toLocaleDateString()}

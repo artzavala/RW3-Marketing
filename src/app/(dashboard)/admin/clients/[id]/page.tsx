@@ -1,4 +1,6 @@
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { ChevronLeft } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { ClientEditForm, ServiceAssignmentForm } from './components'
@@ -58,6 +60,9 @@ export default async function ClientDetailPage({ params }: Props) {
 
   return (
     <div className="max-w-2xl space-y-8">
+      <Link href="/admin/clients" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
+        <ChevronLeft className="h-4 w-4" />Back to Clients
+      </Link>
       <div>
         <h1 className="text-2xl font-bold">{client.name}</h1>
         {client.website && (
@@ -78,8 +83,8 @@ export default async function ClientDetailPage({ params }: Props) {
       </div>
 
       {/* Section 1: Client Details */}
-      <section className="rounded-lg border p-6 space-y-4">
-        <h2 className="text-lg font-semibold">Client Details</h2>
+      <section className="rounded-xl border bg-card p-6 space-y-4">
+        <h2 className="text-base font-semibold">Client Details</h2>
         <ClientEditForm
           client={{
             id: client.id,
@@ -92,8 +97,8 @@ export default async function ClientDetailPage({ params }: Props) {
       </section>
 
       {/* Section 2: Service Packages */}
-      <section className="rounded-lg border p-6 space-y-4">
-        <h2 className="text-lg font-semibold">Service Packages</h2>
+      <section className="rounded-xl border bg-card p-6 space-y-4">
+        <h2 className="text-base font-semibold">Service Packages</h2>
         <ServiceAssignmentForm
           clientId={client.id}
           allPackages={allPackages.map((p) => ({ id: p.id, name: p.name }))}
