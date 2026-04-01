@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-04-01
 **Milestone:** v1
-**Status:** In Progress — Phase 2 active (3/4 plans complete)
+**Status:** In Progress — Phase 2 complete, Phase 3 next
 
 ---
 
@@ -11,20 +11,20 @@
 | Phase | Name | Status |
 |-------|------|--------|
 | 1 | Foundation | Complete |
-| 2 | Client & Services Management | In Progress (3/4 plans complete) |
+| 2 | Client & Services Management | Complete |
 | 3 | Google Sheets Import | Pending |
 | 4 | AI Scanning Engine | Pending |
 | 5 | Signals Dashboard | Pending |
 | 6 | Analytics & Trends | Pending |
 | 7 | Production Hardening | Pending |
 
-Progress: ██████░░░░░░░░░░░░░░ 30% (6/20 plans estimated)
+Progress: ████████░░░░░░░░░░░░ 40% (8/20 plans estimated)
 
 ---
 
 ## Current Work
 
-**Phase 2, Plan 02-04** — Client detail page (edit form)
+**Phase 3** — Google Sheets Import (next up)
 
 ---
 
@@ -38,6 +38,8 @@ Progress: ██████░░░░░░░░░░░░░░ 30% (6/20
 | 02-01 | Database migration + shadcn installs + sidebar nav | 2026-04-01 | 30bff30 |
 | 02-02 | Service packages admin page with CRUD dialogs | 2026-04-01 | 8224862 |
 | 02-03 | Client list page + CRUD actions (admin) | 2026-04-01 | dac85e0 |
+| 02-04 | Client detail page (edit form, admin) | 2026-04-01 | (see phase) |
+| 02-05 | Rep client list and detail pages (read-only) | 2026-04-01 | edf0be7 |
 
 ---
 
@@ -58,6 +60,8 @@ Progress: ██████░░░░░░░░░░░░░░ 30% (6/20
 | form.tsx written manually | base-nova shadcn registry has no form component; CLI silently skips it | 02-01 |
 | Server Actions use (prevState, formData) two-arg signature | useActionState requires it; single-arg form rejected by TypeScript | 02-03 |
 | buttonVariants on Link/a instead of Button asChild | base-ui Button primitive has no asChild prop; buttonVariants className applied directly | 02-03 |
+| notFound() for null client on rep detail page | Keeps security opaque — rep can't distinguish "doesn't exist" from "not your client" | 02-05 |
+| Rep pages use createClient() not createAdminClient() | RLS handles all scoping automatically; no manual WHERE needed | 02-05 |
 
 ---
 
@@ -73,7 +77,7 @@ Progress: ██████░░░░░░░░░░░░░░ 30% (6/20
 ## Session Continuity
 
 **Last session:** 2026-04-01
-**Stopped at:** Completed 02-02 — Service packages admin page with CRUD dialogs
+**Stopped at:** Completed 02-05 — Rep client list and detail pages (read-only). Phase 2 complete.
 **Resume file:** None
 
 ---
