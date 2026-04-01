@@ -13,7 +13,7 @@ export default async function RepClientDetailPage({ params }: PageProps) {
 
   const { data: client } = await supabase
     .from('clients')
-    .select('id, name, website, contact_name, contact_email')
+    .select('id, name, website')
     .eq('id', id)
     .single()
 
@@ -63,19 +63,6 @@ export default async function RepClientDetailPage({ params }: PageProps) {
             </dd>
           </div>
 
-          <div>
-            <dt className="text-sm font-medium text-muted-foreground">Contact Name</dt>
-            <dd className="mt-1">
-              {client.contact_name ?? <span className="text-muted-foreground">—</span>}
-            </dd>
-          </div>
-
-          <div>
-            <dt className="text-sm font-medium text-muted-foreground">Contact Email</dt>
-            <dd className="mt-1">
-              {client.contact_email ?? <span className="text-muted-foreground">—</span>}
-            </dd>
-          </div>
         </dl>
       </div>
 

@@ -90,7 +90,7 @@ export function ClientEditForm({ client, reps }: ClientEditFormProps) {
             <SelectValue placeholder="Select rep..." />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={null}>None</SelectItem>
+            <SelectItem value="">None</SelectItem>
             {reps.map((r) => (
               <SelectItem key={r.id} value={r.id}>
                 {r.name ?? r.id}

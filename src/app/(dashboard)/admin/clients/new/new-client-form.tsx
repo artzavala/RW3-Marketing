@@ -15,7 +15,7 @@ import { createClientAction } from '../actions'
 
 type Rep = {
   id: string
-  full_name: string | null
+  name: string | null
 }
 
 export function NewClientForm({ reps }: { reps: Rep[] }) {
@@ -59,7 +59,7 @@ export function NewClientForm({ reps }: { reps: Rep[] }) {
           <SelectContent>
             {reps.map((r) => (
               <SelectItem key={r.id} value={r.id}>
-                {r.full_name ?? r.id}
+                {r.name ?? r.id}
               </SelectItem>
             ))}
           </SelectContent>

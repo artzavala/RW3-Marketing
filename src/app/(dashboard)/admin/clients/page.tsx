@@ -21,7 +21,7 @@ export default async function AdminClientsPage() {
       name,
       website,
       created_at,
-      assigned_rep:profiles!clients_assigned_rep_fkey(id, full_name),
+      assigned_rep:profiles!clients_assigned_rep_fkey(id, name),
       client_services(count)
     `)
     .order('name')
@@ -86,7 +86,7 @@ export default async function AdminClientsPage() {
                     </TableCell>
                     <TableCell>
                       {rep ? (
-                        <span>{(rep as { full_name: string }).full_name}</span>
+                        <span>{(rep as { name: string }).name}</span>
                       ) : (
                         <span className="text-muted-foreground">Unassigned</span>
                       )}

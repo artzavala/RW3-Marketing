@@ -5,9 +5,9 @@ export default async function NewClientPage() {
   const adminSupabase = createAdminClient()
   const { data: reps } = await adminSupabase
     .from('profiles')
-    .select('id, full_name')
+    .select('id, name')
     .eq('role', 'rep')
-    .order('full_name')
+    .order('name')
 
   return (
     <div className="max-w-lg">
