@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-04-01
 **Milestone:** v1
-**Status:** In Progress — Phase 1 active
+**Status:** In Progress — Phase 1 active (2/5 plans complete)
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Phase | Name | Status |
 |-------|------|--------|
-| 1 | Foundation | 🔄 In Progress (1/5 plans complete) |
+| 1 | Foundation | 🔄 In Progress (2/5 plans complete) |
 | 2 | Client & Services Management | 🔲 Pending |
 | 3 | Google Sheets Import | 🔲 Pending |
 | 4 | AI Scanning Engine | 🔲 Pending |
@@ -18,13 +18,13 @@
 | 6 | Analytics & Trends | 🔲 Pending |
 | 7 | Production Hardening | 🔲 Pending |
 
-Progress: █░░░░░░░░░░░░░░░░░░░ 5% (1/20 plans estimated)
+Progress: ██░░░░░░░░░░░░░░░░░░ 10% (2/20 plans estimated)
 
 ---
 
 ## Current Work
 
-**Phase 1, Plan 02** — Database schema and Drizzle ORM configuration (next to execute)
+**Phase 1, Plan 03** — Clerk auth webhook and user sync (next to execute)
 
 ---
 
@@ -33,6 +33,7 @@ Progress: █░░░░░░░░░░░░░░░░░░░ 5% (1/20 
 | Plan | Name | Completed | Commit |
 |------|------|-----------|--------|
 | 01-01 | Scaffold Next.js 16 app with dependencies | 2026-04-01 | 0f7b3e1 |
+| 01-02 | Database schema and Drizzle ORM configuration | 2026-04-01 | 4787012 |
 
 ---
 
@@ -43,6 +44,8 @@ Progress: █░░░░░░░░░░░░░░░░░░░ 5% (1/20 
 | Scaffolded in /tmp due to RW-3 npm name restriction | Directory name has capital letters; workaround: scaffold to /tmp then rsync | 01-01 |
 | .gitignore uses .env*.local not .env* | Allows .env.example to be committed as onboarding template | 01-01 |
 | shadcn/ui New York style with neutral color + CSS variables | Standard defaults via -d flag | 01-01 |
+| DATABASE_URL_UNPOOLED for drizzle.config.ts migrations | Neon connection pooler is incompatible with DDL operations | 01-02 |
+| generatedAlwaysAsIdentity() for users.id PK | Modern Postgres 16 identity columns preferred over serial | 01-02 |
 
 ---
 
@@ -54,8 +57,8 @@ Progress: █░░░░░░░░░░░░░░░░░░░ 5% (1/20 
 
 ## Session Continuity
 
-**Last session:** 2026-04-01T04:12:04Z
-**Stopped at:** Completed 01-01-PLAN.md
+**Last session:** 2026-04-01T04:15:30Z
+**Stopped at:** Completed 01-02-PLAN.md
 **Resume file:** None
 
 ---
