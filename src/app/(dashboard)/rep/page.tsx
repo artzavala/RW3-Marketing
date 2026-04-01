@@ -4,13 +4,13 @@ import Link from 'next/link'
 export default function RepDashboard() {
   return (
     <div>
-      <div className="mb-8">
+      <div className="mb-8 rounded-xl bg-gradient-to-r from-slate-900 to-slate-700 px-6 py-6 text-white">
         <h1 className="text-2xl font-bold tracking-tight">My Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Your assigned clients and activity.</p>
+        <p className="mt-1 text-slate-300 text-sm">Your assigned clients and activity.</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Link href="/rep/clients" className="group rounded-xl border bg-card p-6 hover:shadow-md transition-all duration-200 cursor-pointer">
+        <Link href="/rep/clients" className="group rounded-xl border bg-card p-6 hover:shadow-md transition-all duration-200 cursor-pointer border-l-4 border-l-blue-500">
           <div className="flex items-start justify-between">
             <div className="rounded-lg bg-blue-50 p-2.5">
               <Users className="h-5 w-5 text-blue-600" />
@@ -23,7 +23,7 @@ export default function RepDashboard() {
           <p className="mt-4 text-xs font-medium text-primary group-hover:underline">View clients →</p>
         </Link>
 
-        <div className="rounded-xl border bg-card p-6 opacity-60">
+        <div className="rounded-xl border bg-card p-6 opacity-60 border-l-4 border-l-amber-400">
           <div className="flex items-start justify-between">
             <div className="rounded-lg bg-amber-50 p-2.5">
               <BarChart3 className="h-5 w-5 text-amber-600" />

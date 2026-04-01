@@ -22,9 +22,9 @@ export default async function AdminServicesPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between pb-4 border-b mb-6">
         <div>
-          <h1 className="text-2xl font-bold">Service Packages</h1>
+          <h1 className="text-2xl font-bold">Service Packages{packages && packages.length > 0 && <span className="ml-2 rounded-full bg-emerald-100 text-emerald-700 text-xs font-medium px-2 py-0.5">{packages.length}</span>}</h1>
           <p className="text-muted-foreground text-sm mt-1">Define and manage service packages.</p>
         </div>
         <AddPackageDialog />

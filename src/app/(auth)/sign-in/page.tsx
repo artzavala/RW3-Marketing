@@ -43,7 +43,8 @@ export default function SignInPage() {
           <span className="text-white font-semibold text-lg">Client Intel</span>
         </div>
         <div>
-          <p className="text-slate-300 text-3xl font-semibold leading-snug">
+          <div className="w-12 h-1 bg-blue-500 rounded mb-4"></div>
+          <p className="text-white text-3xl font-bold leading-snug">
             The intelligence layer<br />for your client relationships.
           </p>
           <p className="text-slate-500 mt-4 text-sm">Track clients, assignments, and signals — all in one place.</p>

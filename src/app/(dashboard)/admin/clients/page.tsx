@@ -29,9 +29,9 @@ export default async function AdminClientsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between pb-4 border-b mb-6">
         <div>
-          <h1 className="text-2xl font-bold">Clients</h1>
+          <h1 className="text-2xl font-bold">Clients{clients && clients.length > 0 && <span className="ml-2 rounded-full bg-blue-100 text-blue-700 text-xs font-medium px-2 py-0.5">{clients.length}</span>}</h1>
           <p className="text-muted-foreground text-sm mt-1">Manage client accounts and rep assignments.</p>
         </div>
         <Link href="/admin/clients/new" className={buttonVariants({ variant: 'default' })}>
