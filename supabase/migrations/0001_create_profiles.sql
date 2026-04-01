@@ -1,13 +1,11 @@
--- Role enum
-CREATE TYPE user_role AS ENUM ('admin', 'rep');
-
 -- Profiles table — mirrors auth.users, extended with role
+-- NOTE: using TEXT + CHECK instead of ENUM to avoid Supabase auth admin type resolution issues
 CREATE TABLE public.profiles (
-  id          UUID        PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  email       TEXT        NOT NULL,
-  name        TEXT,
-  role        user_role   NOT NULL DEFAULT 'rep',
-  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  id         UUID        PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  email      TEXT        NOT NULL,
+  name       TEXT,
+  role       TEXT        NOT NULL DEFAULT 'rep' CHECK (role IN ('admin', 'rep')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 -- Row Level Security
@@ -21,20 +19,25 @@ CREATE POLICY "Users can update own profile"
   ON public.profiles FOR UPDATE
   USING (auth.uid() = id);
 
--- Auto-create profile row when a new auth.users record is inserted
+-- Auto-create profile row when a new auth.users record is inserted.
+-- SET search_path = public is required so supabase_auth_admin can resolve types.
 CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
 BEGIN
   INSERT INTO public.profiles (id, email, name, role)
   VALUES (
     NEW.id,
     NEW.email,
     COALESCE(NEW.raw_user_meta_data->>'name', ''),
-    COALESCE((NEW.raw_user_meta_data->>'role')::user_role, 'rep')
+    CASE WHEN NEW.raw_user_meta_data->>'role' = 'admin' THEN 'admin' ELSE 'rep' END
   );
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
 CREATE OR REPLACE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
