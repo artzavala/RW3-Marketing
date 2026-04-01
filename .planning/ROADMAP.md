@@ -61,6 +61,13 @@ Plans:
 
 **Requirements:** GS-01, GS-02, GS-03, GS-04
 
+**Plans:** 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Database migration (sheets_config table, sheets_row_id on clients) + Google Sheets API client utility
+- [ ] 03-02-PLAN.md — Sync logic server actions (save settings, sync from sheet with upsert + rep resolution)
+- [ ] 03-03-PLAN.md — Admin settings page UI (save/sync forms, status display, sidebar nav link)
+
 **Deliverables:**
 - `sheets_config` table
 - Google Sheets API v4 integration (service account)
