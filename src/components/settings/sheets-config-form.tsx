@@ -16,9 +16,14 @@ export function SheetsConfigForm({ config }: { config: Config }) {
   async function handleSync() {
     setSyncing(true)
     setSyncResult(null)
-    const result = await syncSheet()
-    setSyncResult(result)
-    setSyncing(false)
+    try {
+      const result = await syncSheet()
+      setSyncResult(result)
+    } catch (err) {
+      setSyncResult({ error: err instanceof Error ? err.message : 'Sync failed' })
+    } finally {
+      setSyncing(false)
+    }
   }
 
   return (

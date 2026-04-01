@@ -52,6 +52,16 @@ export async function saveConfig(
 
 export async function syncSheet(): Promise<SyncResult> {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Not authorized' }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+  if (profile?.role !== 'admin') return { error: 'Not authorized' }
+
   const adminSupabase = createAdminClient()
 
   // Load config
@@ -99,7 +109,7 @@ export async function syncSheet(): Promise<SyncResult> {
         .update({
           name: row.name,
           website: row.website || null,
-          assigned_rep_id: assignedRepId,
+          assigned_rep: assignedRepId,
         })
         .eq('id', existing.id)
 
@@ -109,7 +119,7 @@ export async function syncSheet(): Promise<SyncResult> {
       const { error } = await adminSupabase.from('clients').insert({
         name: row.name,
         website: row.website || null,
-        assigned_rep_id: assignedRepId,
+        assigned_rep: assignedRepId,
         sheets_row_id: String(row.rowIndex),
       })
 
