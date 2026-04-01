@@ -6,23 +6,23 @@
 
 **Requirements:** AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05
 
-**Stack:** Next.js 16 + Clerk (with metadata roles) + Neon Postgres + shadcn/ui
+**Stack:** Next.js 16 + Supabase (Auth + Postgres) + shadcn/ui
 
 **Plans:** 5 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Scaffold Next.js 16 app, install deps, configure shadcn/ui
-- [ ] 01-02-PLAN.md — Database layer (Drizzle schema, users table, db client)
-- [ ] 01-03-PLAN.md — Auth layer (proxy.ts, Clerk pages, webhook handler, role utils)
-- [ ] 01-04-PLAN.md — Manual setup (Clerk Dashboard, Neon provisioning, first migration)
+- [x] 01-01-PLAN.md — Scaffold Next.js 16 app, install deps, configure shadcn/ui
+- [x] 01-02-PLAN.md — Database layer (Supabase client utils, profiles table migration)
+- [x] 01-03-PLAN.md — Auth layer (proxy.ts with @supabase/ssr, sign-in/up pages, role utils)
+- [ ] 01-04-PLAN.md — Manual setup (Supabase project provisioning, run migration, create admin user)
 - [ ] 01-05-PLAN.md — Navigation shell with role-aware sidebar and landing pages
 
 **Deliverables:**
 - Next.js 16 app scaffolded and deployed to Vercel
-- Clerk auth integrated (email/password login, session persistence, logout)
-- Role metadata on Clerk users: `admin` | `rep`
-- Neon Postgres connected, migrations running
-- `users` table synced from Clerk webhooks
+- Supabase auth integrated (email/password login, session persistence, logout)
+- `profiles` table with role enum: `admin` | `rep`
+- Supabase Postgres connected, migration applied
+- Auto-profile creation via Postgres trigger on auth.users insert
 - Navigation shell with role-aware routing
 - Admin and Rep landing pages (empty states)
 

@@ -1,9 +1,1 @@
-export type Roles = 'admin' | 'rep'
-
-declare global {
-  interface CustomJwtSessionClaims {
-    metadata: {
-      role?: Roles
-    }
-  }
-}
+export type Role = 'admin' | 'rep'

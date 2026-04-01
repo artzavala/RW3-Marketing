@@ -37,7 +37,7 @@ Account managers always know when a client situation creates an opportunity to g
 
 ## Constraints
 
-- Tech: Vercel deployment, Neon Postgres, Clerk auth
+- Tech: Vercel deployment, Supabase (Auth + Postgres)
 - AI: Google-primary (Gemini via Vercel AI Gateway)
 - Data import: Google Sheets (not direct CRM)
 - Users: Internal team only, two roles
@@ -49,8 +49,8 @@ Account managers always know when a client situation creates an opportunity to g
 | Framework | Next.js 16 (App Router) | SSR, server actions, cron-friendly |
 | UI | shadcn/ui + Tailwind + Geist | Consistent, fast to build |
 | Deployment | Vercel | Native cron, edge functions, zero ops |
-| Database | Neon Postgres (Vercel Marketplace) | Serverless Postgres, branching |
-| Auth | Clerk (Vercel Marketplace) | Simple team login + roles (Admin/Rep) |
+| Database | Supabase Postgres | Auth + DB in one, RLS, triggers |
+| Auth | Supabase Auth (@supabase/ssr) | Email/password, session via cookies |
 | AI Analysis | Vercel AI Gateway → Gemini 1.5 Flash | Google-primary, cost tracking, failover |
 | Web Search | Serper.dev (Google Search API) | Best Google news results for agents |
 | Scheduling | Vercel Cron Jobs | Native daily cron, no extra infra |
