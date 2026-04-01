@@ -15,7 +15,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
-import { LayoutDashboard, Users, LogOut } from 'lucide-react'
+import { LayoutDashboard, Users, Briefcase, LogOut } from 'lucide-react'
 import Link from 'next/link'
 
 interface AppSidebarProps {
@@ -35,8 +35,11 @@ export function AppSidebar({ name, email, role }: AppSidebarProps) {
       icon: LayoutDashboard,
     },
     ...(isAdmin
-      ? [{ label: 'Clients', href: '/admin/clients', icon: Users }]
-      : [{ label: 'My Clients', href: '/rep/clients', icon: Users }]),
+      ? [
+          { label: 'Clients', href: '/admin/clients', icon: Users },
+          { label: 'Services', href: '/admin/services', icon: Briefcase },
+        ]
+      : [{ label: 'Clients', href: '/rep/clients', icon: Users }]),
   ]
 
   async function handleSignOut() {
