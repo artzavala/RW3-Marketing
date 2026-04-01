@@ -1,0 +1,24 @@
+{
+  "project": "client-intelligence-platform",
+  "version": "1.0.0",
+  "milestone": "v1",
+  "workflow": {
+    "commitStyle": "atomic",
+    "phaseTracking": true,
+    "requirePlanBeforeExecution": true
+  },
+  "stack": {
+    "framework": "nextjs-16",
+    "ui": "shadcn-tailwind-geist",
+    "database": "neon-postgres",
+    "auth": "clerk",
+    "deployment": "vercel",
+    "ai": "vercel-ai-gateway-gemini",
+    "search": "serper-dev"
+  },
+  "phases": {
+    "total": 7,
+    "current": null,
+    "completed": []
+  }
+}
