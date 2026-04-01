@@ -62,7 +62,7 @@ Expected: no errors
 
 ```bash
 git add src/components/ui/
-git commit -m "feat(ui): install badge, table, select, label, textarea, alert-dialog"
+git commit -m "feat(ui): install badge, table, select, label, textarea, alert-dialog, checkbox"
 ```
 
 ---
