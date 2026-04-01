@@ -36,7 +36,7 @@ Progress: ██████░░░░░░░░░░░░░░ 30% (6/20
 | 01-02 | Database layer: Supabase client utils + profiles migration | 2026-04-01 | (pending commit) |
 | 01-03 | Auth layer: proxy.ts with @supabase/ssr, sign-in/up pages, role utils | 2026-04-01 | (pending commit) |
 | 02-01 | Database migration + shadcn installs + sidebar nav | 2026-04-01 | 30bff30 |
-| 02-02 | Service package Server Actions (create, update, delete) | 2026-04-01 | 15ff45b |
+| 02-02 | Service packages admin page with CRUD dialogs | 2026-04-01 | 8224862 |
 | 02-03 | Client list page + CRUD actions (admin) | 2026-04-01 | dac85e0 |
 
 ---
@@ -73,7 +73,7 @@ Progress: ██████░░░░░░░░░░░░░░ 30% (6/20
 ## Session Continuity
 
 **Last session:** 2026-04-01
-**Stopped at:** Completed 02-03 — Client list page + CRUD actions (admin)
+**Stopped at:** Completed 02-02 — Service packages admin page with CRUD dialogs
 **Resume file:** None
 
 ---
