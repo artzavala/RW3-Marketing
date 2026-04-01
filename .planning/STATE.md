@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-04-01
 **Milestone:** v1
-**Status:** In Progress — Phase 2 active (1/4 plans complete)
+**Status:** In Progress — Phase 2 active (3/4 plans complete)
 
 ---
 
@@ -11,20 +11,20 @@
 | Phase | Name | Status |
 |-------|------|--------|
 | 1 | Foundation | Complete |
-| 2 | Client & Services Management | In Progress (1/4 plans complete) |
+| 2 | Client & Services Management | In Progress (3/4 plans complete) |
 | 3 | Google Sheets Import | Pending |
 | 4 | AI Scanning Engine | Pending |
 | 5 | Signals Dashboard | Pending |
 | 6 | Analytics & Trends | Pending |
 | 7 | Production Hardening | Pending |
 
-Progress: ████░░░░░░░░░░░░░░░░ 20% (4/20 plans estimated)
+Progress: ██████░░░░░░░░░░░░░░ 30% (6/20 plans estimated)
 
 ---
 
 ## Current Work
 
-**Phase 2, Plan 02-02** — Clients CRUD pages
+**Phase 2, Plan 02-04** — Client detail page (edit form)
 
 ---
 
@@ -36,6 +36,8 @@ Progress: ████░░░░░░░░░░░░░░░░ 20% (4/20
 | 01-02 | Database layer: Supabase client utils + profiles migration | 2026-04-01 | (pending commit) |
 | 01-03 | Auth layer: proxy.ts with @supabase/ssr, sign-in/up pages, role utils | 2026-04-01 | (pending commit) |
 | 02-01 | Database migration + shadcn installs + sidebar nav | 2026-04-01 | 30bff30 |
+| 02-02 | Service package Server Actions (create, update, delete) | 2026-04-01 | 15ff45b |
+| 02-03 | Client list page + CRUD actions (admin) | 2026-04-01 | dac85e0 |
 
 ---
 
@@ -54,6 +56,8 @@ Progress: ████░░░░░░░░░░░░░░░░ 20% (4/20
 | Supabase client utils split into server.ts / client.ts / admin.ts | Separates anon key (user session) from service role (admin ops) | 01-02 |
 | No Drizzle ORM — using Supabase JS client directly | Cleaner integration with RLS and Supabase Auth; Drizzle removed | 01-02 |
 | form.tsx written manually | base-nova shadcn registry has no form component; CLI silently skips it | 02-01 |
+| Server Actions use (prevState, formData) two-arg signature | useActionState requires it; single-arg form rejected by TypeScript | 02-03 |
+| buttonVariants on Link/a instead of Button asChild | base-ui Button primitive has no asChild prop; buttonVariants className applied directly | 02-03 |
 
 ---
 
@@ -62,13 +66,14 @@ Progress: ████░░░░░░░░░░░░░░░░ 20% (4/20
 - Migration `0001_create_profiles.sql` must be run in Supabase dashboard (SQL editor) before auth will work
 - Migration `0002_create_clients_services.sql` must be run in Supabase dashboard before Phase 2 CRUD will work
 - Need to create first admin user manually in Supabase dashboard with `role: admin` in user metadata
+- FK join in client list uses `profiles!clients_assigned_rep_fkey` — if Supabase generated a different constraint name, query needs adjustment (fallback: `profiles(id, full_name)`)
 
 ---
 
 ## Session Continuity
 
 **Last session:** 2026-04-01
-**Stopped at:** Completed 02-01 — Database migration + shadcn installs + sidebar nav
+**Stopped at:** Completed 02-03 — Client list page + CRUD actions (admin)
 **Resume file:** None
 
 ---
