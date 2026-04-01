@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-04-01
 **Milestone:** v1
-**Status:** In Progress — Phase 1 active (2/5 plans complete)
+**Status:** In Progress — Phase 1 active (3/5 plans complete)
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Phase | Name | Status |
 |-------|------|--------|
-| 1 | Foundation | 🔄 In Progress (2/5 plans complete) |
+| 1 | Foundation | 🔄 In Progress (3/5 plans complete) |
 | 2 | Client & Services Management | 🔲 Pending |
 | 3 | Google Sheets Import | 🔲 Pending |
 | 4 | AI Scanning Engine | 🔲 Pending |
@@ -18,13 +18,13 @@
 | 6 | Analytics & Trends | 🔲 Pending |
 | 7 | Production Hardening | 🔲 Pending |
 
-Progress: ██░░░░░░░░░░░░░░░░░░ 10% (2/20 plans estimated)
+Progress: ███░░░░░░░░░░░░░░░░░ 15% (3/20 plans estimated)
 
 ---
 
 ## Current Work
 
-**Phase 1, Plan 03** — Clerk auth webhook and user sync (next to execute)
+**Phase 1, Plan 04** — Seed data / admin scaffold (next to execute)
 
 ---
 
@@ -34,6 +34,7 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 10% (2/20
 |------|------|-----------|--------|
 | 01-01 | Scaffold Next.js 16 app with dependencies | 2026-04-01 | 0f7b3e1 |
 | 01-02 | Database schema and Drizzle ORM configuration | 2026-04-01 | 4787012 |
+| 01-03 | Auth layer: Clerk middleware, pages, webhook, role utils | 2026-04-01 | 507d481 |
 
 ---
 
@@ -46,19 +47,23 @@ Progress: ██░░░░░░░░░░░░░░░░░░ 10% (2/20
 | shadcn/ui New York style with neutral color + CSS variables | Standard defaults via -d flag | 01-01 |
 | DATABASE_URL_UNPOOLED for drizzle.config.ts migrations | Neon connection pooler is incompatible with DDL operations | 01-02 |
 | generatedAlwaysAsIdentity() for users.id PK | Modern Postgres 16 identity columns preferred over serial | 01-02 |
+| ClerkProvider inside body tag (not wrapping html) | Required by Clerk Core 3 architecture | 01-03 |
+| proxy.ts instead of middleware.ts | Next.js 16 renamed the middleware file | 01-03 |
+| verifyWebhook from @clerk/nextjs/server | Abstracts svix webhook verification cleanly | 01-03 |
+| Role defaults to 'rep' when public_metadata.role absent | Safe default for new Clerk users | 01-03 |
 
 ---
 
 ## Blockers / Concerns
 
-- `.env.local` has placeholder values — real Clerk and Neon credentials needed before auth/database plans can be tested end-to-end
+- `.env.local` has placeholder values — real Clerk keys (NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY, CLERK_SECRET_KEY, CLERK_WEBHOOK_SECRET) and Neon DATABASE_URL needed before auth/database plans can be tested end-to-end
 
 ---
 
 ## Session Continuity
 
-**Last session:** 2026-04-01T04:15:30Z
-**Stopped at:** Completed 01-02-PLAN.md
+**Last session:** 2026-04-01T04:26:38Z
+**Stopped at:** Completed 01-03-PLAN.md
 **Resume file:** None
 
 ---
