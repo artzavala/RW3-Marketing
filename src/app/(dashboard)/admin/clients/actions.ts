@@ -5,7 +5,12 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { checkRole } from '@/lib/roles'
 
-export async function createClientAction(formData: FormData) {
+type ActionState = { error: string } | null
+
+export async function createClientAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   const isAdmin = await checkRole('admin')
   if (!isAdmin) return { error: 'Unauthorized' }
 
@@ -33,7 +38,10 @@ export async function createClientAction(formData: FormData) {
   redirect(`/admin/clients/${data.id}`)
 }
 
-export async function updateClientAction(formData: FormData) {
+export async function updateClientAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   const isAdmin = await checkRole('admin')
   if (!isAdmin) return { error: 'Unauthorized' }
 
@@ -63,7 +71,10 @@ export async function updateClientAction(formData: FormData) {
   return null
 }
 
-export async function deleteClientAction(formData: FormData) {
+export async function deleteClientAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   const isAdmin = await checkRole('admin')
   if (!isAdmin) return { error: 'Unauthorized' }
 
