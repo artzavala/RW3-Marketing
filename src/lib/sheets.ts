@@ -1,13 +1,12 @@
 // src/lib/sheets.ts
-// Reads client rows from a Google Sheet using a service account.
+// Reads client rows from a Google Sheet using an API key.
+// The sheet must be shared as "Anyone with the link can view".
 //
 // Expected sheet format:
 //   Row 1: header (skipped)
 //   Column A: client name (required)
 //   Column B: website (optional)
 //   Column C: rep email (optional)
-
-import { google } from 'googleapis'
 
 export type SheetRow = {
   name: string
@@ -16,42 +15,34 @@ export type SheetRow = {
   rowIndex: number  // 1-based row number (used as sheets_row_id)
 }
 
-function getAuth() {
-  const json = process.env.GOOGLE_SERVICE_ACCOUNT_JSON
-  if (!json) throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is not set')
-
-  const credentials = JSON.parse(json)
-  return new google.auth.GoogleAuth({
-    credentials,
-    scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
-  })
-}
-
 function extractSheetId(url: string): string {
-  // Handles: https://docs.google.com/spreadsheets/d/SHEET_ID/edit#gid=0
   const match = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/)
   if (!match) throw new Error('Invalid Google Sheets URL')
   return match[1]
 }
 
 export async function readSheet(sheetUrl: string, tabName: string): Promise<SheetRow[]> {
-  const auth = getAuth()
-  const sheets = google.sheets({ version: 'v4', auth })
+  const apiKey = process.env.GOOGLE_SHEETS_API_KEY
+  if (!apiKey) throw new Error('GOOGLE_SHEETS_API_KEY is not set')
 
   const spreadsheetId = extractSheetId(sheetUrl)
+  const range = encodeURIComponent(`${tabName}!A:C`)
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`
 
-  const response = await sheets.spreadsheets.values.get({
-    spreadsheetId,
-    range: `${tabName}!A:C`,
-  })
+  const res = await fetch(url)
+  if (!res.ok) {
+    const body = await res.text()
+    throw new Error(`Sheets API error ${res.status}: ${body}`)
+  }
 
-  const rows = response.data.values ?? []
+  const data = await res.json() as { values?: string[][] }
+  const rows = data.values ?? []
 
   // Skip header row (index 0 = row 1 in the sheet)
   return rows.slice(1).map((row, i) => ({
-    name: (row[0] as string | undefined)?.trim() ?? '',
-    website: (row[1] as string | undefined)?.trim() ?? '',
-    repEmail: (row[2] as string | undefined)?.trim() ?? '',
+    name: row[0]?.trim() ?? '',
+    website: row[1]?.trim() ?? '',
+    repEmail: row[2]?.trim() ?? '',
     rowIndex: i + 2,  // row 2 onward (1-based, header is row 1)
   })).filter((row) => row.name !== '')  // skip blank name rows
 }
