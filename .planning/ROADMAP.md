@@ -15,7 +15,7 @@ Plans:
 - [x] 01-02-PLAN.md — Database layer (Supabase client utils, profiles table migration)
 - [x] 01-03-PLAN.md — Auth layer (proxy.ts with @supabase/ssr, sign-in/up pages, role utils)
 - [ ] 01-04-PLAN.md — Manual setup (Supabase project provisioning, run migration, create admin user)
-- [ ] 01-05-PLAN.md — Navigation shell with role-aware sidebar and landing pages
+- [x] 01-05-PLAN.md — Navigation shell with role-aware sidebar and landing pages
 
 **Deliverables:**
 - Next.js 16 app scaffolded and deployed to Vercel
