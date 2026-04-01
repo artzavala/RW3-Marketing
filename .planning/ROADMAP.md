@@ -8,6 +8,15 @@
 
 **Stack:** Next.js 16 + Clerk (with metadata roles) + Neon Postgres + shadcn/ui
 
+**Plans:** 5 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold Next.js 16 app, install deps, configure shadcn/ui
+- [ ] 01-02-PLAN.md — Database layer (Drizzle schema, users table, db client)
+- [ ] 01-03-PLAN.md — Auth layer (proxy.ts, Clerk pages, webhook handler, role utils)
+- [ ] 01-04-PLAN.md — Manual setup (Clerk Dashboard, Neon provisioning, first migration)
+- [ ] 01-05-PLAN.md — Navigation shell with role-aware sidebar and landing pages
+
 **Deliverables:**
 - Next.js 16 app scaffolded and deployed to Vercel
 - Clerk auth integrated (email/password login, session persistence, logout)
