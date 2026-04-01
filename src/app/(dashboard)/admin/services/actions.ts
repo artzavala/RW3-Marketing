@@ -4,7 +4,12 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { checkRole } from '@/lib/roles'
 
-export async function createPackageAction(formData: FormData) {
+type ActionState = { error: string } | null
+
+export async function createPackageAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   const isAdmin = await checkRole('admin')
   if (!isAdmin) return { error: 'Unauthorized' }
 
@@ -25,7 +30,10 @@ export async function createPackageAction(formData: FormData) {
   return null
 }
 
-export async function updatePackageAction(formData: FormData) {
+export async function updatePackageAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   const isAdmin = await checkRole('admin')
   if (!isAdmin) return { error: 'Unauthorized' }
 
@@ -49,7 +57,10 @@ export async function updatePackageAction(formData: FormData) {
   return null
 }
 
-export async function deletePackageAction(formData: FormData) {
+export async function deletePackageAction(
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   const isAdmin = await checkRole('admin')
   if (!isAdmin) return { error: 'Unauthorized' }
 
