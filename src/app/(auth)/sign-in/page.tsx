@@ -33,42 +33,62 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="w-full max-w-sm space-y-6 px-4">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
-          <p className="text-sm text-muted-foreground">Client Intelligence Platform</p>
-        </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-              autoComplete="email"
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-            />
+    <div className="flex min-h-screen">
+      {/* Left panel — navy brand */}
+      <div className="hidden lg:flex lg:w-1/2 bg-[#0F172A] flex-col justify-between p-12">
+        <div className="flex items-center gap-3">
+          <div className="h-8 w-8 rounded-lg bg-blue-500 flex items-center justify-center">
+            <span className="text-white font-bold text-sm">CI</span>
           </div>
-          {error && <p className="text-sm text-destructive">{error}</p>}
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Signing in…' : 'Sign in'}
-          </Button>
-        </form>
-        <p className="text-center text-sm text-muted-foreground">
-          Need an account?{' '}
-          <Link href="/sign-up" className="underline underline-offset-4">
-            Sign up
-          </Link>
-        </p>
+          <span className="text-white font-semibold text-lg">Client Intel</span>
+        </div>
+        <div>
+          <p className="text-slate-300 text-3xl font-semibold leading-snug">
+            The intelligence layer<br />for your client relationships.
+          </p>
+          <p className="text-slate-500 mt-4 text-sm">Track clients, assignments, and signals — all in one place.</p>
+        </div>
+        <p className="text-slate-600 text-xs">© 2026 Client Intel</p>
+      </div>
+
+      {/* Right panel — form */}
+      <div className="flex flex-1 flex-col items-center justify-center bg-background px-6 py-12">
+        <div className="w-full max-w-sm">
+          <div className="mb-8">
+            <h1 className="text-2xl font-bold tracking-tight">Welcome back</h1>
+            <p className="text-muted-foreground mt-1 text-sm">Sign in to your account</p>
+          </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+            </div>
+            {error && <p className="text-sm text-destructive">{error}</p>}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? 'Signing in…' : 'Sign in'}
+            </Button>
+          </form>
+          <p className="text-center text-sm text-muted-foreground mt-6">
+            Need an account?{' '}
+            <Link href="/sign-up" className="underline underline-offset-4">
+              Sign up
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   )
