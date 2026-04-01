@@ -1,19 +1,20 @@
 # Design Spec — Clients, Signals & Team
 **Date:** 2026-04-01
 **Status:** Approved
-**Covers:** Phases 2–5 of Client Intelligence Platform v1
+**Covers:** Phases 2–6 of Client Intelligence Platform v1
 
 ---
 
 ## Overview
 
-Completes the core product after Phase 1 (foundation). Implements four sequential feature phases:
+Completes the core product after Phase 1 (foundation). Implements five sequential feature phases:
 
 1. **Phase 2 — Client & Services Management** (CLI-01–05, SVC-01–05)
 2. **Phase 3 — Google Sheets Import** (GS-01–04)
 3. **Phase 4 — AI Scanning Engine** (SCN-01–05, with mock mode)
 4. **Phase 5 — Signals Dashboard** (SIG-01–05)
-5. **Team Management** (admin-managed user roster + invite, not in original requirements)
+5. **Phase 6 — Analytics** (ANL-01–02)
+6. **Team Management** (admin-managed user roster + invite, added requirement)
 
 Implementation strategy: **sequential phases** — each phase is fully deployable and testable before the next begins.
 
@@ -110,8 +111,9 @@ signal_actions (
   signal_id  UUID NOT NULL REFERENCES public.signals(id) ON DELETE CASCADE,
   user_id    UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   status     TEXT NOT NULL CHECK (status IN ('reviewed', 'actioned', 'dismissed')),
-  note       TEXT,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  note       TEXT,   -- nullable
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE (signal_id, user_id)  -- one action per user per signal; use upsert on status change
 )
 ```
 RLS: users INSERT/SELECT their own rows (`user_id = auth.uid()`)
@@ -127,8 +129,9 @@ All routes under `src/app/(dashboard)/` — inherit auth + sidebar layout.
 |-------|---------|
 | `/admin/clients` | Table of all clients (name, website, rep, active status) + "Add Client" button |
 | `/admin/clients/new` | Form: name, website, assign rep (dropdown), active toggle |
-| `/admin/clients/[id]` | Detail: client info + edit, service assignment, scan trigger, signal list |
+| `/admin/clients/[id]` | Detail: client info + edit, service assignment, scan trigger, signal list, score trend chart |
 | `/admin/signals` | Global feed, newest first; filter bar |
+| `/admin/services` | Table of service packages + "Add Package" button; inline edit/delete per row |
 | `/admin/team` | Roster table + "Invite" button |
 | `/admin/settings` | Google Sheets config + manual sync |
 
@@ -153,12 +156,16 @@ All routes under `src/app/(dashboard)/` — inherit auth + sidebar layout.
 - `createClient(data)` — inserts client, sets `created_by = auth.uid()`
 - `updateClient(id, data)` — updates name, website, assigned_rep_id, active
 - `deleteClient(id)` — soft delete via `active = false`
+- `createPackage(data)` — inserts service_package row (admin only, verified server-side)
+- `updatePackage(id, data)` — updates name/description
+- `deletePackage(id)` — hard delete (no clients should be using it; server action checks and blocks if any `client_services` rows exist)
 - `assignPackage(clientId, packageId)` — upsert `client_services`
 - `unassignPackage(clientId, packageId)` — delete from `client_services`
 
 **UI patterns**
 - List pages: server components, direct Supabase fetch, no client-side fetching
-- Service assignment: checkbox list of all packages on client detail, checked = assigned
+- `/admin/services`: table with inline edit (shadcn `Sheet` drawer) and delete (confirm dialog); "Add Package" opens same drawer
+- Service assignment on client detail: checkbox list of all packages, checked = assigned
 - Rep dropdown: fetches all profiles where `role = 'rep'`
 
 ### Team Management
@@ -178,7 +185,8 @@ All routes under `src/app/(dashboard)/` — inherit auth + sidebar layout.
 
 **Library:** `src/lib/sheets.ts`
 - Authenticates via service account (`GOOGLE_SERVICE_ACCOUNT_JSON` env var)
-- `readSheet(sheetUrl, tabName)` — returns array of `{ name, website, repEmail, rowIndex }`
+- Sheet must have a header row (row 1 is skipped). Expected columns: **A = name, B = website, C = rep email**. Missing B or C values are treated as empty string / unassigned — not errors.
+- `readSheet(sheetUrl, tabName)` — returns array of `{ name, website, repEmail, rowIndex }` (rowIndex is 1-based, used as `sheets_row_id`)
 - `syncSheet()` server action:
   1. Reads config from `sheets_config`
   2. Fetches rows from sheet
@@ -216,6 +224,7 @@ scanClient(clientId) →
 
 **Manual trigger**
 - Server Action `triggerScan(clientId)` on client detail page
+- Before scanning, verifies the calling user has access to `clientId`: admin always passes; rep must have `assigned_rep_id = auth.uid()` on that client (checked via anon client query — RLS enforces this automatically)
 - Creates a `scan_runs` record with `triggered_by = 'manual'`
 - Returns scan result summary
 
@@ -247,7 +256,23 @@ scanClient(clientId) →
 - Optimistic UI: status badge updates immediately, Server Action persists async
 
 **Signal actions** (`src/app/actions/signals.ts`)
-- `createAction(signalId, status, note?)` — inserts `signal_actions` row
+- `createAction(signalId, status, note?)` — upserts `signal_actions` row on `(signal_id, user_id)` conflict; updates status + note
+
+---
+
+### Phase 6 — Analytics
+
+**Client detail page — score trend chart** (ANL-01)
+- Recharts `LineChart` (via shadcn/ui) on client detail page
+- Query: average `signals.score` grouped by day for the last 90 days for that client
+- X-axis: date; Y-axis: score 1–5
+- Rendered as a server component; chart data passed as props to a `'use client'` chart wrapper
+
+**Dashboard — signal volume by week** (ANL-02)
+- Recharts `BarChart` on both `/admin` and `/rep` dashboards
+- Admin: signal count across all clients grouped by ISO week (last 12 weeks)
+- Rep: same but scoped to assigned clients
+- Replaces the current empty-state "Signals" card on the dashboard pages
 
 ---
 
@@ -272,6 +297,9 @@ scanClient(clientId) →
 - Service role client (`lib/supabase/admin.ts`) used only for: team invite, role changes, cron scan writes
 - All user-facing reads/writes use anon client with RLS enforced
 
+### Cron timeout constraint
+The cron scan loops all active clients sequentially. On Vercel Hobby (10s limit) this is unsuitable for more than ~3 clients. On Pro (60s default, up to 800s with Fluid Compute) it handles typical loads. For v1, document this limit; parallel scanning is a v2 concern.
+
 ### Environment variables
 | Variable | Purpose | Required for |
 |----------|---------|--------------|
@@ -291,4 +319,5 @@ scanClient(clientId) →
 | GS-01–04 | Phase 3 | Covered |
 | SCN-01–05 | Phase 4 | Covered (mock mode for local dev) |
 | SIG-01–05 | Phase 5 | Covered |
-| Team (new) | Phase 2 | Covered |
+| ANL-01–02 | Phase 6 | Covered |
+| Team management | Added | Covered (admin user roster + invite) |
