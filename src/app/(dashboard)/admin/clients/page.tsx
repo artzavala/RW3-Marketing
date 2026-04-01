@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Users } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
-import { buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/lib/button-variants'
 import {
   Table,
   TableBody,
