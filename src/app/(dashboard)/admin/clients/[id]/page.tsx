@@ -5,6 +5,8 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { ClientEditForm, ServiceAssignmentForm } from './components'
 import { ScanButton } from '@/components/clients/scan-button'
+import { fetchSignals } from '@/lib/queries/signals'
+import { SignalCard } from '@/components/signals/signal-card'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -15,7 +17,10 @@ export default async function ClientDetailPage({ params }: Props) {
   const supabase = await createClient()
   const admin = createAdminClient()
 
-  const [clientResult, packagesResult, assignedResult, repsResult] =
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) notFound()
+
+  const [clientResult, packagesResult, assignedResult, repsResult, { signals }] =
     await Promise.all([
       supabase
         .from('clients')
@@ -44,6 +49,8 @@ export default async function ClientDetailPage({ params }: Props) {
         .select('id, name')
         .eq('role', 'rep')
         .order('name'),
+
+      fetchSignals(supabase, user.id, true, { clientId: id }),
     ])
 
   const client = clientResult.data
@@ -111,9 +118,25 @@ export default async function ClientDetailPage({ params }: Props) {
       <section className="rounded-xl border bg-card p-6 space-y-4">
         <h2 className="text-base font-semibold">Scanning</h2>
         <ScanButton clientId={client.id} />
-        <p className="text-sm text-muted-foreground">
-          Signals appear in the Signals section after Phase 5 is built.
-        </p>
+      </section>
+
+      {/* Section 4: Signals */}
+      <section className="rounded-xl border bg-card p-6 space-y-4">
+        <h2 className="text-base font-semibold">
+          Signals
+          {signals.length > 0 && (
+            <span className="ml-2 text-muted-foreground font-normal text-sm">({signals.length})</span>
+          )}
+        </h2>
+        {signals.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No signals yet. Click &quot;Scan now&quot; above.</p>
+        ) : (
+          <div className="space-y-3">
+            {signals.map((signal) => (
+              <SignalCard key={signal.id} signal={signal} />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   )

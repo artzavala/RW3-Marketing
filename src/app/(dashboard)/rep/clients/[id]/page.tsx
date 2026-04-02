@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Badge } from '@/components/ui/badge'
 import { ScanButton } from '@/components/clients/scan-button'
+import { fetchSignals } from '@/lib/queries/signals'
+import { SignalCard } from '@/components/signals/signal-card'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -11,6 +13,9 @@ interface PageProps {
 export default async function RepClientDetailPage({ params }: PageProps) {
   const { id } = await params
   const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) notFound()
 
   const { data: client } = await supabase
     .from('clients')
@@ -22,13 +27,16 @@ export default async function RepClientDetailPage({ params }: PageProps) {
     notFound()
   }
 
-  const { data: services } = await supabase
-    .from('client_services')
-    .select(`
-      service_package_id,
-      service_packages ( name )
-    `)
-    .eq('client_id', id)
+  const [{ data: services }, { signals }] = await Promise.all([
+    supabase
+      .from('client_services')
+      .select(`
+        service_package_id,
+        service_packages ( name )
+      `)
+      .eq('client_id', id),
+    fetchSignals(supabase, user.id, false, { clientId: id }),
+  ])
 
   return (
     <div className="max-w-2xl">
@@ -72,10 +80,26 @@ export default async function RepClientDetailPage({ params }: PageProps) {
         <h2 className="text-lg font-semibold">Scanning</h2>
         <div className="mt-3">
           <ScanButton clientId={client.id} />
-          <p className="mt-3 text-sm text-muted-foreground">
-            Signals appear in the Signals section after Phase 5 is built.
-          </p>
         </div>
+      </div>
+
+      {/* Section 3: Signals */}
+      <div className="mt-6 rounded-xl border bg-card p-6">
+        <h2 className="text-lg font-semibold mb-3">
+          Signals
+          {signals.length > 0 && (
+            <span className="ml-2 text-muted-foreground font-normal text-base">({signals.length})</span>
+          )}
+        </h2>
+        {signals.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No signals yet. Click &quot;Scan now&quot; above.</p>
+        ) : (
+          <div className="space-y-3">
+            {signals.map((signal) => (
+              <SignalCard key={signal.id} signal={signal} />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Section 3: Assigned Services */}
