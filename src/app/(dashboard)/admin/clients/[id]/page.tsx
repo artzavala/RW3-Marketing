@@ -4,6 +4,7 @@ import { ChevronLeft } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { ClientEditForm, ServiceAssignmentForm } from './components'
+import { ScanButton } from '@/components/clients/scan-button'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -104,6 +105,15 @@ export default async function ClientDetailPage({ params }: Props) {
           allPackages={allPackages.map((p) => ({ id: p.id, name: p.name }))}
           assignedPackageIds={assignedPackageIds}
         />
+      </section>
+
+      {/* Section 3: Scanning */}
+      <section className="rounded-xl border bg-card p-6 space-y-4">
+        <h2 className="text-base font-semibold">Scanning</h2>
+        <ScanButton clientId={client.id} />
+        <p className="text-sm text-muted-foreground">
+          Signals appear in the Signals section after Phase 5 is built.
+        </p>
       </section>
     </div>
   )

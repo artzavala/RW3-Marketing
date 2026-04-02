@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Badge } from '@/components/ui/badge'
+import { ScanButton } from '@/components/clients/scan-button'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -66,7 +67,18 @@ export default async function RepClientDetailPage({ params }: PageProps) {
         </dl>
       </div>
 
-      {/* Section 2: Assigned Services */}
+      {/* Section 2: Scanning */}
+      <div className="mt-6 rounded-xl border bg-card p-6">
+        <h2 className="text-lg font-semibold">Scanning</h2>
+        <div className="mt-3">
+          <ScanButton clientId={client.id} />
+          <p className="mt-3 text-sm text-muted-foreground">
+            Signals appear in the Signals section after Phase 5 is built.
+          </p>
+        </div>
+      </div>
+
+      {/* Section 3: Assigned Services */}
       <div className="mt-6 rounded-xl border bg-card p-6">
         <h2 className="text-lg font-semibold">Services</h2>
 
